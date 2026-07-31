@@ -285,6 +285,40 @@
     const KONAMI = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
     let progress = 0;
     let active = false;
+    let started = false;
+    let completed = false;
+    let abandonSent = false;
+
+    function trackEvent(name, params) {
+      if (typeof window.gtag === "function") window.gtag("event", name, params);
+    }
+
+    if ("IntersectionObserver" in window) {
+      const hintObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              trackEvent("egg_hint_view");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      hintObserver.observe(eggHint);
+    }
+
+    function sendAbandonIfNeeded() {
+      if (started && !completed && !abandonSent) {
+        abandonSent = true;
+        trackEvent("egg_code_abandoned", { progress });
+      }
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") sendAbandonIfNeeded();
+    });
+    window.addEventListener("pagehide", sendAbandonIfNeeded);
 
     const progressEls = Array.from(document.querySelectorAll(".egg-progress"));
     const eggButtons = Array.from(document.querySelectorAll(".egg-btn"));
@@ -366,11 +400,17 @@
 
     function registerInput(key) {
       if (key === KONAMI[progress]) {
+        if (progress === 0) {
+          started = true;
+          trackEvent("egg_code_start");
+        }
         flashButton(key);
         progress++;
         updateProgressDisplay();
         if (progress === KONAMI.length) {
           progress = 0;
+          completed = true;
+          trackEvent("egg_code_success");
           window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
           active ? revertChaos() : applyChaos();
           updateProgressDisplay();
@@ -378,7 +418,13 @@
       } else {
         progress = key === KONAMI[0] ? 1 : 0;
         updateProgressDisplay();
-        if (progress === 1) flashButton(key);
+        if (progress === 1) {
+          if (!started) {
+            started = true;
+            trackEvent("egg_code_start");
+          }
+          flashButton(key);
+        }
       }
     }
 
