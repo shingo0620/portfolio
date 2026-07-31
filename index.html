@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shingo Wu — Infrastructure &amp; AI Systems Engineer</title>
+<meta name="description" content="Shingo Wu 的個人 portfolio：基礎架構、自動化與 AI Agent 工程師。從 WordPress/Laravel 代管到用 Claude Code / Codex 重塑開發流程。" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Shingo Wu — Infrastructure & AI Systems Engineer" />
+<meta property="og:description" content="從機房到 AI Agent，把重複的事交給系統。看看 Shingo 在做什麼。" />
+<meta property="og:image" content="https://0xshingo.cc/assets/generated/og-image.png" />
+<meta property="og:url" content="https://0xshingo.cc" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="logo">0x<span>shingo</span></a>
+    <nav class="nav-links">
+      <a href="#about" data-nav>About</a>
+      <a href="#now" data-nav>Now</a>
+      <a href="#skills" data-nav>Skills</a>
+      <a href="#projects" data-nav>Projects</a>
+      <a href="#contact" data-nav>Contact</a>
+    </nav>
+    <a class="nav-github magnetic" href="https://github.com/shingo0620" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <section id="hero" class="hero">
+    <canvas id="particles" class="hero-canvas"></canvas>
+    <div class="hero-bg" style="background-image:url('assets/generated/hero-bg.png')"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">/// SYSTEM.ONLINE — 0xshingo.cc</p>
+      <h1 class="hero-title">Shingo Wu</h1>
+      <p class="hero-role"><span class="typed" id="typedRole"></span><span class="cursor-blink">_</span></p>
+      <p class="hero-desc">從機房到 AI Agent，我把重複的事交給系統，把心力留給真正難的問題。這個網站本身，就是這套方法論的產物。</p>
+      <div class="hero-cta">
+        <a href="https://github.com/shingo0620" target="_blank" rel="noopener" class="btn btn-primary magnetic">
+          GitHub
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+        <a href="#projects" class="btn btn-ghost magnetic">看作品 ↓</a>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap tilt" id="heroTilt">
+      <div class="hero-photo-glow"></div>
+      <img src="assets/photos/me02.jpg" alt="Shingo Wu 正式照" class="hero-photo" width="640" height="800" />
+    </div>
+
+    <div class="scroll-indicator"><span></span></div>
+  </section>
+
+  <section id="about" class="about reveal">
+    <div class="wrap">
+      <div class="about-photo reveal-item">
+        <img src="assets/photos/me01.png" alt="Shingo Wu 生活照" width="600" height="600" />
+      </div>
+      <div class="about-text reveal-item">
+        <h2 class="section-title">// About</h2>
+        <p>我是 Shingo，一名把基礎架構和自動化當成手藝在打磨的工程師。日常在 Tellustek 維運 WordPress／Laravel 代管基礎設施與可觀測性系統，處理的是別人網站背後看不見的那層——效能、監控、安全、SSL、資料庫。</p>
+        <p>工作之外，我沉迷於用 Claude Code、Codex 這類 Agentic 工具重新設計自己的開發流程：從 Discord 橋接 coding CLI 的 harness、本機 Claude Code 用量儀表板，到用規格驅動的方式寫交易機器人。能自動化的事，我不想手動做第二次。</p>
+        <div class="tag-row">
+          <span class="tag">Cloudflare Workers</span>
+          <span class="tag">Laravel / PHP</span>
+          <span class="tag">WordPress Infra</span>
+          <span class="tag">Claude Code Agents</span>
+          <span class="tag">Automation / RPA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="now" class="now reveal">
+    <div class="wrap">
+      <h2 class="section-title reveal-item">// Now</h2>
+      <div class="now-grid">
+
+        <div class="panel reveal-item">
+          <div class="terminal-bar"><span></span><span></span><span></span></div>
+          <div class="terminal-body" id="terminalBody" aria-live="polite"></div>
+        </div>
+
+        <div class="panel gh-live reveal-item" id="githubLive">
+          <div class="terminal-bar">
+            <span class="gh-live-label">github.com/shingo0620 — live</span>
+          </div>
+          <div class="gh-stats" id="ghStats">
+            <div class="gh-stat"><b id="ghRepos">—</b><span>Repos</span></div>
+            <div class="gh-stat"><b id="ghFollowers">—</b><span>Followers</span></div>
+            <div class="gh-stat"><b id="ghSince">—</b><span>Since</span></div>
+          </div>
+          <div class="gh-recent" id="ghRecent">
+            <div class="gh-recent-item"><span class="muted">loading recent activity…</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="skills reveal">
+    <div class="wrap">
+      <h2 class="section-title reveal-item">// Skills</h2>
+      <div class="skills-grid">
+
+        <div class="skill-card reveal-item">
+          <h3>Infra &amp; Cloud</h3>
+          <div class="tag-row">
+            <span class="tag">Cloudflare (Workers/Pages/DNS)</span>
+            <span class="tag">Linux / Nginx</span>
+            <span class="tag">Plesk / RunCloud</span>
+            <span class="tag">Docker</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal-item">
+          <h3>Backend</h3>
+          <div class="tag-row">
+            <span class="tag">PHP / Laravel</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Python</span>
+            <span class="tag">MySQL / PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal-item">
+          <h3>AI &amp; Agents</h3>
+          <div class="tag-row">
+            <span class="tag">Claude Code</span>
+            <span class="tag">Codex CLI</span>
+            <span class="tag">MCP</span>
+            <span class="tag">Agent / Skill Design</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal-item">
+          <h3>Frontend</h3>
+          <div class="tag-row">
+            <span class="tag">Vue</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal-item">
+          <h3>Automation</h3>
+          <div class="tag-row">
+            <span class="tag">Playwright</span>
+            <span class="tag">Shell Scripting</span>
+            <span class="tag">Cron / Queues</span>
+            <span class="tag">Axiom Observability</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal-item">
+          <h3>Also Playing With</h3>
+          <div class="tag-row">
+            <span class="tag">Solidity</span>
+            <span class="tag">Quant / Trading Bots</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="projects reveal">
+    <div class="wrap">
+      <h2 class="section-title reveal-item">// Projects</h2>
+      <div class="projects-grid" id="projectsGrid">
+
+        <article class="project-card reveal-item">
+          <div class="project-head">
+            <h3>openab</h3>
+            <span class="project-lang">Rust</span>
+          </div>
+          <p>輕量、雲原生的 ACP harness，讓 Discord 直接橋接任何相容 ACP 的 coding CLI。</p>
+          <a class="project-link" href="https://github.com/shingo0620/openab" target="_blank" rel="noopener">View on GitHub →</a>
+        </article>
+
+        <article class="project-card reveal-item">
+          <div class="project-head">
+            <h3>claude-usage</h3>
+            <span class="project-lang">Python</span>
+          </div>
+          <p>本機儀表板，追蹤 Claude Code 的 token 用量、成本與 session 歷史；訂閱制使用者還有額度進度條。</p>
+          <a class="project-link" href="https://github.com/shingo0620/claude-usage" target="_blank" rel="noopener">View on GitHub →</a>
+        </article>
+
+        <article class="project-card reveal-item">
+          <div class="project-head">
+            <h3>my-llm-wiki</h3>
+            <span class="project-lang">Shell</span>
+          </div>
+          <p>用 LLM 建立與維護個人知識庫的工具鏈——匯入來源、查詢、跑健康檢查一次到位。</p>
+          <a class="project-link" href="https://github.com/shingo0620/my-llm-wiki" target="_blank" rel="noopener">View on GitHub →</a>
+        </article>
+
+        <article class="project-card reveal-item">
+          <div class="project-head">
+            <h3>cross-exchange-arbitrage-bot</h3>
+            <span class="project-lang">TypeScript</span>
+          </div>
+          <p>用 spec-kit 規格驅動開發的方式，嘗試打造跨交易所套利機器人。</p>
+          <a class="project-link" href="https://github.com/shingo0620/cross-exchange-arbitrage-bot" target="_blank" rel="noopener">View on GitHub →</a>
+        </article>
+
+        <article class="project-card reveal-item">
+          <div class="project-head">
+            <h3>nftx-bayc-flash-borrow</h3>
+            <span class="project-lang">Solidity</span>
+          </div>
+          <p>透過 NFTX 閃電借出 BAYC NFT，原子化地兌現 ApeCoin 空投。</p>
+          <a class="project-link" href="https://github.com/shingo0620/nftx-bayc-flash-borrow" target="_blank" rel="noopener">View on GitHub →</a>
+        </article>
+
+        <article class="project-card reveal-item">
+          <div class="project-head">
+            <h3>wordpress-must-loading</h3>
+            <span class="project-lang">JavaScript</span>
+          </div>
+          <p>WordPress 站台效能調校用的 must-use plugin 載入工具。</p>
+          <a class="project-link" href="https://github.com/shingo0620/wordpress-must-loading" target="_blank" rel="noopener">View on GitHub →</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact reveal">
+    <div class="wrap reveal-item">
+      <h2 class="section-title">// Contact</h2>
+      <p>最活躍的地方是 GitHub — 想合作、聊技術，或單純想看我在幹嘛，都歡迎來逛逛。</p>
+      <a href="https://github.com/shingo0620" target="_blank" rel="noopener" class="btn btn-primary btn-lg magnetic">
+        Follow on GitHub
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>0xshingo.cc</p>
+  <p>&copy; 2026 Shingo Wu · Built solo, shipped fast.</p>
+</footer>
+
+<script src="js/main.js" defer></script>
+<script src="js/github.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#05070d" stroke="url(#g)" stroke-width="2"/>
+  <text x="32" y="41" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="24" font-weight="700" fill="url(#g)">0x</text>
+</svg>
