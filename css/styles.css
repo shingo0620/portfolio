@@ -810,6 +810,14 @@ section { position: relative; z-index: 1; }
   font-size: 1.05rem;
 }
 
+.contact-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .egg-hint {
   margin-top: 3rem;
   font-family: var(--mono);
@@ -909,6 +917,58 @@ section { position: relative; z-index: 1; }
 .egg-circle {
   border-radius: 50%;
   font-weight: 700;
+}
+
+.insights-note {
+  color: var(--text-dim);
+  max-width: 46ch;
+  margin: 0 auto 2.5rem;
+  font-size: 1.05rem;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.insight-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  transition: background-color 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+
+.insight-card-highlight {
+  border-color: var(--cyan);
+}
+
+.insight-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin-bottom: 0.5rem;
+}
+
+.insight-value {
+  display: block;
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.insights-pending {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  margin-bottom: 2rem;
 }
 
 .footer {

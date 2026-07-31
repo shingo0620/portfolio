@@ -264,10 +264,16 @@
     <div class="wrap reveal-item">
       <h2 class="section-title">// Contact</h2>
       <p>最活躍的地方是 GitHub — 想合作、聊技術，或單純想看我在幹嘛，都歡迎來逛逛。</p>
-      <a href="https://github.com/shingo0620" target="_blank" rel="noopener" class="btn btn-primary btn-lg magnetic">
-        Follow on GitHub
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
-      </a>
+      <div class="contact-links">
+        <a href="https://github.com/shingo0620" target="_blank" rel="noopener" class="btn btn-primary btn-lg magnetic contact-cta" data-contact-method="github">
+          Follow on GitHub
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+        <a href="https://www.threads.com/@0x.shingo" target="_blank" rel="noopener" class="btn btn-ghost btn-lg magnetic contact-cta" data-contact-method="threads">
+          Follow on Threads
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+      </div>
 
       <p class="egg-hint">// 恭喜你發現了一個神秘彩蛋，輸入：<span class="egg-code" id="eggCode"><span class="egg-progress">↑</span> <span class="egg-progress">↑</span> <span class="egg-progress">↓</span> <span class="egg-progress">↓</span> <span class="egg-progress">←</span> <span class="egg-progress">→</span> <span class="egg-progress">←</span> <span class="egg-progress">→</span> <span class="egg-progress">B</span> <span class="egg-progress">A</span></span></p>
 
@@ -283,6 +289,47 @@
           <button type="button" class="egg-btn egg-circle" data-key="a" aria-label="A">A</button>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="insights" class="insights reveal" hidden>
+    <div class="wrap reveal-item">
+      <h2 class="section-title">// Site Insights</h2>
+      <p class="insights-note">你解開了雙層彩蛋 — 這裡是這個網站的真實流量與轉換漏斗。</p>
+
+      <div class="insights-grid">
+        <div class="insight-card">
+          <span class="insight-label">瀏覽量</span>
+          <span class="insight-value" id="statPageviews">—</span>
+        </div>
+        <div class="insight-card">
+          <span class="insight-label">彩蛋提示曝光</span>
+          <span class="insight-value" id="statHintView">—</span>
+        </div>
+        <div class="insight-card">
+          <span class="insight-label">彩蛋開始輸入</span>
+          <span class="insight-value" id="statCodeStart">—</span>
+        </div>
+        <div class="insight-card">
+          <span class="insight-label">彩蛋完整解鎖</span>
+          <span class="insight-value" id="statCodeSuccess">—</span>
+        </div>
+        <div class="insight-card">
+          <span class="insight-label">輸入到一半離開</span>
+          <span class="insight-value" id="statCodeAbandoned">—</span>
+        </div>
+        <div class="insight-card insight-card-highlight">
+          <span class="insight-label">Contact 轉換率</span>
+          <span class="insight-value" id="statConversion">—</span>
+        </div>
+      </div>
+
+      <p class="insights-pending" id="insightsPending">數據串接中，即將顯示即時流量與轉換漏斗。</p>
+
+      <a href="https://www.tellustek.com/contact/" target="_blank" rel="noopener" class="btn btn-primary btn-lg magnetic contact-cta" data-contact-method="tellustek">
+        商務合作洽談
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+      </a>
     </div>
   </section>
 

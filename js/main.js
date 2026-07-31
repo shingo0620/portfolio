@@ -4,6 +4,20 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isTouch = window.matchMedia("(hover: none)").matches;
 
+  function trackEvent(name, params) {
+    if (typeof window.gtag === "function") window.gtag("event", name, params);
+  }
+
+  /* -------------------------------------------------------------- */
+  /* contact CTA conversion tracking                                  */
+  /* -------------------------------------------------------------- */
+
+  document.querySelectorAll(".contact-cta").forEach((el) => {
+    el.addEventListener("click", () => {
+      trackEvent("contact_conversion", { method: el.dataset.contactMethod || "unknown" });
+    });
+  });
+
   /* -------------------------------------------------------------- */
   /* theme toggle (light / dark)                                      */
   /* -------------------------------------------------------------- */
@@ -289,17 +303,29 @@
     let completed = false;
     let abandonSent = false;
 
-    function trackEvent(name, params) {
-      if (typeof window.gtag === "function") window.gtag("event", name, params);
+    const insightsSection = document.getElementById("insights");
+    let hintViewed = false;
+    let insightsRevealed = false;
+
+    function revealInsights() {
+      if (!insightsSection) return;
+      insightsSection.hidden = false;
+      trackEvent("insights_unlocked");
     }
 
     if ("IntersectionObserver" in window) {
       const hintObserver = new IntersectionObserver(
-        (entries, observer) => {
+        (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
+            if (!entry.isIntersecting) return;
+            if (!hintViewed) {
+              hintViewed = true;
               trackEvent("egg_hint_view");
-              observer.unobserve(entry.target);
+            }
+            if (completed && !insightsRevealed) {
+              insightsRevealed = true;
+              if (active) revertChaos();
+              revealInsights();
             }
           });
         },
