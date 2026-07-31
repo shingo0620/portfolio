@@ -5,6 +5,25 @@
   const isTouch = window.matchMedia("(hover: none)").matches;
 
   /* -------------------------------------------------------------- */
+  /* theme toggle (light / dark)                                      */
+  /* -------------------------------------------------------------- */
+
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    themeToggle.setAttribute("aria-pressed", String(isLight));
+
+    themeToggle.addEventListener("click", () => {
+      const nowLight = document.documentElement.getAttribute("data-theme") !== "light";
+      document.documentElement.setAttribute("data-theme", nowLight ? "light" : "dark");
+      themeToggle.setAttribute("aria-pressed", String(nowLight));
+      try {
+        localStorage.setItem("theme", nowLight ? "light" : "dark");
+      } catch (e) {}
+    });
+  }
+
+  /* -------------------------------------------------------------- */
   /* scroll progress bar + nav shadow + scroll-spy                   */
   /* -------------------------------------------------------------- */
 
@@ -221,6 +240,37 @@
     });
     tilt.addEventListener("mouseleave", () => {
       tilt.style.transform = "rotateY(0deg) rotateX(0deg)";
+    });
+  }
+
+  /* -------------------------------------------------------------- */
+  /* 3D tilt — project & skill cards                                  */
+  /* -------------------------------------------------------------- */
+
+  if (!isTouch && !reducedMotion) {
+    document.querySelectorAll(".project-card, .skill-card").forEach((card) => {
+      const maxDeg = 6;
+      const lift = card.classList.contains("project-card") ? -6 : -4;
+
+      card.addEventListener("mouseenter", () => {
+        card.style.transition = "none";
+      });
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top) / rect.height;
+        const rx = (0.5 - py) * maxDeg;
+        const ry = (px - 0.5) * maxDeg;
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(${lift}px)`;
+        card.style.setProperty("--mx", px * 100 + "%");
+        card.style.setProperty("--my", py * 100 + "%");
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transition = "";
+        card.style.transform = "";
+      });
     });
   }
 
