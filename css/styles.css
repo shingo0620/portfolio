@@ -422,7 +422,15 @@ section { position: relative; z-index: 1; }
   align-items: center;
 }
 
+.about-photo {
+  justify-self: center;
+  width: min(280px, 100%);
+}
+
 .about-photo img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 20px;
   border: 1px solid var(--border);
   filter: grayscale(0.15);
@@ -688,6 +696,11 @@ section { position: relative; z-index: 1; }
 }
 
 .project-link:hover { color: var(--cyan); gap: 0.6rem; }
+
+.project-link-private {
+  color: var(--text-faint);
+  cursor: default;
+}
 
 .project-stars {
   font-family: var(--mono);
