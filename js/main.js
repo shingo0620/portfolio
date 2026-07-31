@@ -269,10 +269,104 @@
 
       card.addEventListener("mouseleave", () => {
         card.style.transition = "";
-        card.style.transform = "";
+        card.style.transform = card.dataset.chaosTransform || "";
       });
     });
   }
+
+  /* -------------------------------------------------------------- */
+  /* easter egg — konami code → satsui mode                           */
+  /* -------------------------------------------------------------- */
+
+  (() => {
+    const eggHint = document.querySelector(".egg-hint");
+    if (!eggHint) return;
+
+    const KONAMI = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
+    let progress = 0;
+    let active = false;
+
+    function chaosTargets() {
+      return document.querySelectorAll(".project-card, .skill-card, .panel");
+    }
+
+    function headingTargets() {
+      return document.querySelectorAll(".hero-title, .section-title");
+    }
+
+    function splitToChars(el) {
+      if (el.dataset.split) return;
+      el.dataset.split = "1";
+      el.innerHTML = el.textContent
+        .split("")
+        .map((ch) => `<span class="egg-char">${ch === " " ? "&nbsp;" : ch}</span>`)
+        .join("");
+    }
+
+    function applyChaos() {
+      document.body.classList.add("satsui-mode");
+
+      chaosTargets().forEach((el) => {
+        const rot = (Math.random() - 0.5) * 30;
+        const tx = (Math.random() - 0.5) * 60;
+        const ty = (Math.random() - 0.5) * 40;
+        const t = `rotate(${rot.toFixed(2)}deg) translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px)`;
+        el.dataset.chaosTransform = t;
+        el.style.transform = t;
+      });
+
+      headingTargets().forEach((el) => {
+        splitToChars(el);
+        el.querySelectorAll(".egg-char").forEach((span) => {
+          const rot = (Math.random() - 0.5) * 50;
+          const tx = (Math.random() - 0.5) * 14;
+          const ty = (Math.random() - 0.5) * 20;
+          span.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`;
+        });
+      });
+
+      active = true;
+    }
+
+    function revertChaos() {
+      document.body.classList.remove("satsui-mode");
+
+      chaosTargets().forEach((el) => {
+        delete el.dataset.chaosTransform;
+        el.style.transform = "";
+      });
+
+      headingTargets().forEach((el) => {
+        el.querySelectorAll(".egg-char").forEach((span) => {
+          span.style.transform = "";
+        });
+      });
+
+      active = false;
+    }
+
+    function registerInput(key) {
+      if (key === KONAMI[progress]) {
+        progress++;
+        if (progress === KONAMI.length) {
+          progress = 0;
+          active ? revertChaos() : applyChaos();
+        }
+      } else {
+        progress = key === KONAMI[0] ? 1 : 0;
+      }
+    }
+
+    window.addEventListener("keydown", (e) => {
+      registerInput(e.key.toLowerCase());
+    });
+
+    document.querySelectorAll(".egg-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        registerInput(btn.dataset.key.toLowerCase());
+      });
+    });
+  })();
 
   /* -------------------------------------------------------------- */
   /* particle network canvas                                          */
