@@ -926,6 +926,24 @@ section { position: relative; z-index: 1; }
   font-size: 1.05rem;
 }
 
+.funnel-scroll-hint {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin-bottom: 1.5rem;
+}
+
+.funnel-scroller {
+  position: relative;
+  height: 300vh;
+}
+
+.funnel-sticky {
+  position: sticky;
+  top: 84px;
+  padding-top: 0.5rem;
+}
+
 .funnel {
   position: relative;
   display: flex;
@@ -933,6 +951,20 @@ section { position: relative; z-index: 1; }
   align-items: center;
   gap: 0.4rem;
   margin-bottom: 1.75rem;
+}
+
+.funnel-step {
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.funnel-step.is-pending { opacity: 0.35; }
+.funnel-step.is-done { opacity: 0.6; }
+.funnel-step.is-active { opacity: 1; transform: scale(1.03); }
+
+@media (prefers-reduced-motion: reduce) {
+  .funnel-scroller { height: auto; }
+  .funnel-sticky { position: static; }
+  .funnel-step { transition: none; }
 }
 
 .funnel-canvas {

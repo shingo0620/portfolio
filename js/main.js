@@ -399,63 +399,80 @@
       return Math.round(n).toString();
     }
 
-    function animateCountUp(el, target, opts) {
-      opts = opts || {};
-      const isPercent = !!opts.isPercent;
-      const bar = opts.bar || null;
-      const barTargetPct = Math.max(opts.barTargetPct || 0, bar ? 20 : 0);
-      const delay = opts.delay || 0;
-      const duration = 1200;
+    function initScrollFunnel() {
+      const scroller = document.getElementById("funnelScroller");
+      const steps = Array.from(document.querySelectorAll("#insightsFunnel .funnel-step"));
+      const abandonedEl = document.getElementById("statCodeAbandoned");
+      const conversionEl = document.getElementById("statConversion");
+      if (!scroller || !steps.length) return;
+
+      const TARGETS = [1200, 340, 86, 24, 15];
+      const specs = steps.map((el, i) => ({
+        el,
+        countEl: el.querySelector(".funnel-count"),
+        bar: el.querySelector(".funnel-bar"),
+        target: TARGETS[i] || 0,
+        barPct: Math.max(Number(el.dataset.pct) || 0, 20),
+      }));
+
+      function progressFor(index, activeIndex, localProgress) {
+        if (index < activeIndex) return 1;
+        if (index > activeIndex) return 0;
+        return localProgress;
+      }
 
       if (reducedMotion) {
-        el.textContent = formatCount(target, isPercent);
-        if (bar) bar.style.width = barTargetPct + "%";
+        specs.forEach((s) => {
+          if (s.countEl) s.countEl.textContent = formatCount(s.target, false);
+          if (s.bar) s.bar.style.width = s.barPct + "%";
+          s.el.classList.add("is-done");
+        });
+        if (abandonedEl) abandonedEl.textContent = "62";
+        if (conversionEl) conversionEl.textContent = "1.3%";
         return;
       }
 
-      if (bar) bar.style.width = "0%";
-      const start = performance.now() + delay;
+      let ticking = false;
 
-      function tick(now) {
-        const elapsed = now - start;
-        if (elapsed < 0) {
-          requestAnimationFrame(tick);
-          return;
+      function update() {
+        ticking = false;
+        const rect = scroller.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const scrolled = -rect.top;
+        const scrollable = Math.max(rect.height - vh, 1);
+        const overall = Math.min(Math.max(scrolled / scrollable, 0), 1);
+        const raw = overall * specs.length;
+        const activeIndex = Math.min(Math.floor(raw), specs.length - 1);
+        const localProgress = overall >= 1 ? 1 : raw - activeIndex;
+
+        specs.forEach((s, i) => {
+          const progress = progressFor(i, activeIndex, localProgress);
+          if (s.countEl) s.countEl.textContent = formatCount(s.target * progress, false);
+          if (s.bar) s.bar.style.width = s.barPct * progress + "%";
+          s.el.classList.toggle("is-active", i === activeIndex && overall < 1);
+          s.el.classList.toggle("is-done", progress >= 1);
+          s.el.classList.toggle("is-pending", progress <= 0 && i !== activeIndex);
+        });
+
+        if (abandonedEl) {
+          const p = progressFor(3, activeIndex, localProgress);
+          abandonedEl.textContent = Math.round(62 * p).toString();
         }
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = formatCount(target * eased, isPercent);
-        if (bar) bar.style.width = barTargetPct * eased + "%";
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          el.textContent = formatCount(target, isPercent);
-          if (bar) bar.style.width = barTargetPct + "%";
+        if (conversionEl) {
+          const p = progressFor(specs.length - 1, activeIndex, localProgress);
+          conversionEl.textContent = (1.3 * p).toFixed(1) + "%";
         }
       }
-      requestAnimationFrame(tick);
-    }
 
-    function animateFunnelCounts() {
-      const barSpecs = [
-        { id: "statPageviews", target: 1200, barPct: 100 },
-        { id: "statHintView", target: 340, barPct: 28 },
-        { id: "statCodeStart", target: 86, barPct: 7 },
-        { id: "statCodeSuccess", target: 24, barPct: 2 },
-        { id: "statContactConv", target: 15, barPct: 1 },
-      ];
-      barSpecs.forEach((spec, i) => {
-        const el = document.getElementById(spec.id);
-        if (!el) return;
-        const bar = el.closest(".funnel-step")?.querySelector(".funnel-bar");
-        animateCountUp(el, spec.target, { bar, barTargetPct: spec.barPct, delay: i * 220 });
-      });
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      }
 
-      const abandonedEl = document.getElementById("statCodeAbandoned");
-      if (abandonedEl) animateCountUp(abandonedEl, 62, { delay: 2 * 220 });
-
-      const conversionEl = document.getElementById("statConversion");
-      if (conversionEl) animateCountUp(conversionEl, 1.3, { isPercent: true, delay: 5 * 220 });
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      update();
     }
 
     function revealInsights() {
@@ -463,8 +480,7 @@
       insightsSection.hidden = false;
       trackEvent("insights_unlocked");
 
-      animateFunnelCounts();
-
+      initScrollFunnel();
       startFunnelParticles();
     }
 
