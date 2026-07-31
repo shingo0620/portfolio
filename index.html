@@ -295,34 +295,41 @@
   <section id="insights" class="insights reveal" hidden>
     <div class="wrap reveal-item">
       <h2 class="section-title">// Site Insights</h2>
-      <p class="insights-note">你解開了雙層彩蛋 — 這裡是這個網站的流量與轉換漏斗版型預覽。</p>
+      <p class="insights-note">你解開了雙層彩蛋 — 這裡是訪客從進站到成功轉換的漏斗版型預覽。</p>
 
-      <div class="insights-grid">
-        <div class="insight-card">
-          <span class="insight-label">瀏覽量</span>
-          <span class="insight-value" id="statPageviews">1.2K</span>
+      <div class="funnel" id="insightsFunnel">
+        <div class="funnel-step" style="--pct: 100%">
+          <div class="funnel-bar"><span class="funnel-count" id="statPageviews">1.2K</span></div>
+          <span class="funnel-label">網站瀏覽量</span>
         </div>
-        <div class="insight-card">
-          <span class="insight-label">彩蛋提示曝光</span>
-          <span class="insight-value" id="statHintView">340</span>
+        <div class="funnel-rate">↓ 28% 滑到彩蛋提示區</div>
+
+        <div class="funnel-step" style="--pct: 28%">
+          <div class="funnel-bar"><span class="funnel-count" id="statHintView">340</span></div>
+          <span class="funnel-label">彩蛋提示曝光</span>
         </div>
-        <div class="insight-card">
-          <span class="insight-label">彩蛋開始輸入</span>
-          <span class="insight-value" id="statCodeStart">86</span>
+        <div class="funnel-rate">↓ 25% 開始輸入</div>
+
+        <div class="funnel-step" style="--pct: 7%">
+          <div class="funnel-bar"><span class="funnel-count" id="statCodeStart">86</span></div>
+          <span class="funnel-label">彩蛋開始輸入</span>
         </div>
-        <div class="insight-card">
-          <span class="insight-label">彩蛋完整解鎖</span>
-          <span class="insight-value" id="statCodeSuccess">24</span>
+        <div class="funnel-rate funnel-rate-warn"><span id="statCodeAbandoned">62</span> 人輸入到一半離開</div>
+        <div class="funnel-rate">↓ 28% 完整解鎖</div>
+
+        <div class="funnel-step" style="--pct: 2%">
+          <div class="funnel-bar"><span class="funnel-count" id="statCodeSuccess">24</span></div>
+          <span class="funnel-label">彩蛋完整解鎖</span>
         </div>
-        <div class="insight-card">
-          <span class="insight-label">輸入到一半離開</span>
-          <span class="insight-value" id="statCodeAbandoned">62</span>
-        </div>
-        <div class="insight-card insight-card-highlight">
-          <span class="insight-label">Contact 轉換率</span>
-          <span class="insight-value" id="statConversion">6.8%</span>
+        <div class="funnel-rate">↓ 63% 進行聯絡</div>
+
+        <div class="funnel-step funnel-step-highlight" style="--pct: 1%">
+          <div class="funnel-bar"><span class="funnel-count">15</span></div>
+          <span class="funnel-label">Contact 轉換（任一方式）</span>
         </div>
       </div>
+
+      <p class="insights-conversion">整體轉換率 <strong id="statConversion">1.3%</strong>（瀏覽 → 成功轉換）</p>
 
       <p class="insights-pending" id="insightsPending">* 以上為示意數據，僅供版面參考；累積足夠實際流量後，將改為嵌入 Looker Studio 的即時報表。</p>
 

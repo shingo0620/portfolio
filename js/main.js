@@ -311,6 +311,13 @@
       if (!insightsSection) return;
       insightsSection.hidden = false;
       trackEvent("insights_unlocked");
+
+      const funnel = document.getElementById("insightsFunnel");
+      if (funnel) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => funnel.classList.add("in-view"));
+        });
+      }
     }
 
     if ("IntersectionObserver" in window) {
