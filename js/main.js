@@ -393,17 +393,77 @@
       }
     }
 
+    function formatCount(n, isPercent) {
+      if (isPercent) return n.toFixed(1) + "%";
+      if (n >= 1000) return (n / 1000).toFixed(1) + "K";
+      return Math.round(n).toString();
+    }
+
+    function animateCountUp(el, target, opts) {
+      opts = opts || {};
+      const isPercent = !!opts.isPercent;
+      const bar = opts.bar || null;
+      const barTargetPct = Math.max(opts.barTargetPct || 0, bar ? 20 : 0);
+      const delay = opts.delay || 0;
+      const duration = 1200;
+
+      if (reducedMotion) {
+        el.textContent = formatCount(target, isPercent);
+        if (bar) bar.style.width = barTargetPct + "%";
+        return;
+      }
+
+      if (bar) bar.style.width = "0%";
+      const start = performance.now() + delay;
+
+      function tick(now) {
+        const elapsed = now - start;
+        if (elapsed < 0) {
+          requestAnimationFrame(tick);
+          return;
+        }
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = formatCount(target * eased, isPercent);
+        if (bar) bar.style.width = barTargetPct * eased + "%";
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          el.textContent = formatCount(target, isPercent);
+          if (bar) bar.style.width = barTargetPct + "%";
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function animateFunnelCounts() {
+      const barSpecs = [
+        { id: "statPageviews", target: 1200, barPct: 100 },
+        { id: "statHintView", target: 340, barPct: 28 },
+        { id: "statCodeStart", target: 86, barPct: 7 },
+        { id: "statCodeSuccess", target: 24, barPct: 2 },
+        { id: "statContactConv", target: 15, barPct: 1 },
+      ];
+      barSpecs.forEach((spec, i) => {
+        const el = document.getElementById(spec.id);
+        if (!el) return;
+        const bar = el.closest(".funnel-step")?.querySelector(".funnel-bar");
+        animateCountUp(el, spec.target, { bar, barTargetPct: spec.barPct, delay: i * 220 });
+      });
+
+      const abandonedEl = document.getElementById("statCodeAbandoned");
+      if (abandonedEl) animateCountUp(abandonedEl, 62, { delay: 2 * 220 });
+
+      const conversionEl = document.getElementById("statConversion");
+      if (conversionEl) animateCountUp(conversionEl, 1.3, { isPercent: true, delay: 5 * 220 });
+    }
+
     function revealInsights() {
       if (!insightsSection) return;
       insightsSection.hidden = false;
       trackEvent("insights_unlocked");
 
-      const funnel = document.getElementById("insightsFunnel");
-      if (funnel) {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => funnel.classList.add("in-view"));
-        });
-      }
+      animateFunnelCounts();
 
       startFunnelParticles();
     }
