@@ -306,6 +306,11 @@
     function applyChaos() {
       document.body.classList.add("satsui-mode");
 
+      document.querySelectorAll(".photo-satsui[data-src]").forEach((img) => {
+        img.src = img.dataset.src;
+        img.removeAttribute("data-src");
+      });
+
       chaosTargets().forEach((el) => {
         const rot = (Math.random() - 0.5) * 30;
         const tx = (Math.random() - 0.5) * 60;
@@ -350,6 +355,7 @@
         progress++;
         if (progress === KONAMI.length) {
           progress = 0;
+          window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
           active ? revertChaos() : applyChaos();
         }
       } else {

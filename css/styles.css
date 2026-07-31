@@ -939,9 +939,12 @@ body.satsui-mode .egg-char {
   transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-body.satsui-mode .hero-photo,
-body.satsui-mode .about-photo img {
-  filter: grayscale(1) contrast(1.7) brightness(0.55) sepia(1) hue-rotate(-50deg) saturate(4.5) drop-shadow(0 0 22px rgba(255, 0, 0, 0.6));
+.photo-satsui { display: none; }
+
+body.satsui-mode .photo-normal { display: none; }
+body.satsui-mode .photo-satsui {
+  display: block;
+  filter: drop-shadow(0 0 22px rgba(255, 0, 0, 0.5));
 }
 
 @media (prefers-reduced-motion: reduce) {
