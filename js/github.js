@@ -2,6 +2,7 @@
   "use strict";
 
   const USER = "shingo0620";
+  const EXCLUDED_REPOS = new Set(["claude-usage", "openab"]);
   const ghRepos = document.getElementById("ghRepos");
   const ghFollowers = document.getElementById("ghFollowers");
   const ghSince = document.getElementById("ghSince");
@@ -20,7 +21,6 @@
       { name: "my-vapor-fighter", pushed_at: "2026-07-27T03:38:49Z" },
       { name: "my-llm-wiki", pushed_at: "2026-07-11T03:08:51Z" },
       { name: "my-fable5-assitant", pushed_at: "2026-07-08T07:00:27Z" },
-      { name: "claude-usage", pushed_at: "2026-05-14T10:45:14Z" },
     ],
   };
 
@@ -41,13 +41,16 @@
     ghFollowers.textContent = profile.followers;
     ghSince.textContent = new Date(profile.created_at).getFullYear();
 
-    const items = repos.slice(0, 5).map(
-      (r) => `
+    const items = repos
+      .filter((r) => !EXCLUDED_REPOS.has(r.name))
+      .slice(0, 5)
+      .map(
+        (r) => `
       <div class="gh-recent-item">
         <a href="https://github.com/${USER}/${r.name}" target="_blank" rel="noopener">${r.name}</a>
         <time>${timeAgo(r.pushed_at)}</time>
       </div>`
-    );
+      );
     ghRecent.innerHTML = items.join("") || '<div class="gh-recent-item"><span class="muted">no public activity</span></div>';
   }
 
@@ -55,7 +58,7 @@
     try {
       const [profileRes, reposRes] = await Promise.all([
         fetch(`https://api.github.com/users/${USER}`, { headers: { Accept: "application/vnd.github+json" } }),
-        fetch(`https://api.github.com/users/${USER}/repos?sort=pushed&per_page=5`, {
+        fetch(`https://api.github.com/users/${USER}/repos?sort=pushed&per_page=10`, {
           headers: { Accept: "application/vnd.github+json" },
         }),
       ]);
