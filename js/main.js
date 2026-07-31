@@ -452,7 +452,7 @@
       });
 
       const abandonedEl = document.getElementById("statCodeAbandoned");
-      if (abandonedEl) animateCountUp(abandonedEl, 72.1, { isPercent: true, delay: 2 * 220 });
+      if (abandonedEl) animateCountUp(abandonedEl, 62, { delay: 2 * 220 });
 
       const conversionEl = document.getElementById("statConversion");
       if (conversionEl) animateCountUp(conversionEl, 1.3, { isPercent: true, delay: 5 * 220 });
