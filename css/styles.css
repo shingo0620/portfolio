@@ -927,6 +927,7 @@ section { position: relative; z-index: 1; }
 }
 
 .funnel {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -934,7 +935,18 @@ section { position: relative; z-index: 1; }
   margin-bottom: 1.75rem;
 }
 
+.funnel-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .funnel-step {
+  position: relative;
+  z-index: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -973,6 +985,8 @@ section { position: relative; z-index: 1; }
 }
 
 .funnel-rate {
+  position: relative;
+  z-index: 1;
   font-family: var(--mono);
   font-size: 0.78rem;
   color: var(--text-faint);

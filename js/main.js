@@ -307,6 +307,92 @@
     let hintViewed = false;
     let insightsRevealed = false;
 
+    function startFunnelParticles() {
+      if (reducedMotion) return;
+      const funnel = document.getElementById("insightsFunnel");
+      const canvas = document.getElementById("funnelCanvas");
+      if (!funnel || !canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      const STOPS = [1, 0.28, 0.07, 0.02, 0.12];
+      let w, h, dots, running = false, rafId = null;
+
+      function funnelHalfWidthAt(t) {
+        const stages = STOPS.length - 1;
+        const pos = Math.min(t, 1) * stages;
+        const i = Math.min(Math.floor(pos), stages - 1);
+        const frac = pos - i;
+        const wA = Math.max(STOPS[i], 0.2);
+        const wB = Math.max(STOPS[i + 1], 0.2);
+        return ((wA + (wB - wA) * frac) / 2) * 0.9;
+      }
+
+      function spawn() {
+        return {
+          t: Math.random(),
+          side: (Math.random() - 0.5) * 2,
+          speed: 0.09 + Math.random() * 0.06,
+          cyan: Math.random() < 0.5,
+        };
+      }
+
+      function resize() {
+        const rect = funnel.getBoundingClientRect();
+        w = canvas.width = rect.width;
+        h = canvas.height = rect.height;
+      }
+
+      function step() {
+        if (!running) return;
+        ctx.clearRect(0, 0, w, h);
+        dots.forEach((d) => {
+          d.t += d.speed * 0.012;
+          if (d.t > 1) Object.assign(d, spawn(), { t: 0 });
+
+          const y = d.t * h;
+          const x = w / 2 + d.side * funnelHalfWidthAt(d.t) * w;
+          const alpha = Math.sin(Math.PI * Math.min(d.t, 1)) * 0.9;
+          const color = d.cyan ? "34, 211, 238" : "167, 139, 250";
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(${color}, ${alpha.toFixed(2)})`;
+          ctx.shadowColor = `rgba(${color}, ${alpha.toFixed(2)})`;
+          ctx.shadowBlur = 8;
+          ctx.arc(x, y, 2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        rafId = requestAnimationFrame(step);
+      }
+
+      function start() {
+        if (running) return;
+        if (!dots) dots = Array.from({ length: 26 }, spawn);
+        resize();
+        running = true;
+        rafId = requestAnimationFrame(step);
+      }
+
+      function stop() {
+        running = false;
+        if (rafId) cancelAnimationFrame(rafId);
+        if (w && h) ctx.clearRect(0, 0, w, h);
+      }
+
+      window.addEventListener("resize", () => {
+        if (running) resize();
+      });
+
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((entry) => (entry.isIntersecting ? start() : stop())),
+          { threshold: 0.1 }
+        );
+        io.observe(funnel);
+      } else {
+        start();
+      }
+    }
+
     function revealInsights() {
       if (!insightsSection) return;
       insightsSection.hidden = false;
@@ -318,6 +404,8 @@
           requestAnimationFrame(() => funnel.classList.add("in-view"));
         });
       }
+
+      startFunnelParticles();
     }
 
     if ("IntersectionObserver" in window) {
