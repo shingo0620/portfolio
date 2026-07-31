@@ -829,6 +829,15 @@ section { position: relative; z-index: 1; }
   color: var(--text);
 }
 
+.egg-progress {
+  transition: color 0.15s var(--ease), text-shadow 0.15s var(--ease);
+}
+
+.egg-progress.done {
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(var(--cyan-rgb), 0.8);
+}
+
 @keyframes egg-pulse {
   0%, 100% { opacity: 0.7; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.03); }
@@ -888,6 +897,13 @@ section { position: relative; z-index: 1; }
 .egg-btn:active {
   transform: scale(0.9);
   background: rgba(244, 114, 182, 0.2);
+}
+
+.egg-btn.flash {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(var(--cyan-rgb), 0.25);
+  box-shadow: 0 0 12px rgba(var(--cyan-rgb), 0.6);
 }
 
 .egg-circle {

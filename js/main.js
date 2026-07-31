@@ -286,6 +286,20 @@
     let progress = 0;
     let active = false;
 
+    const progressEls = Array.from(document.querySelectorAll(".egg-progress"));
+    const eggButtons = Array.from(document.querySelectorAll(".egg-btn"));
+
+    function updateProgressDisplay() {
+      progressEls.forEach((el, i) => el.classList.toggle("done", i < progress));
+    }
+
+    function flashButton(key) {
+      const btn = eggButtons.find((b) => b.dataset.key.toLowerCase() === key);
+      if (!btn) return;
+      btn.classList.add("flash");
+      setTimeout(() => btn.classList.remove("flash"), 350);
+    }
+
     function chaosTargets() {
       return document.querySelectorAll(".project-card, .skill-card, .panel");
     }
@@ -352,14 +366,19 @@
 
     function registerInput(key) {
       if (key === KONAMI[progress]) {
+        flashButton(key);
         progress++;
+        updateProgressDisplay();
         if (progress === KONAMI.length) {
           progress = 0;
           window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
           active ? revertChaos() : applyChaos();
+          updateProgressDisplay();
         }
       } else {
         progress = key === KONAMI[0] ? 1 : 0;
+        updateProgressDisplay();
+        if (progress === 1) flashButton(key);
       }
     }
 
