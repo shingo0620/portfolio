@@ -110,6 +110,31 @@
         </div>
       </div>
     </div>
+
+    <div class="panel about-meta reveal-item">
+      <div class="terminal-bar"><span></span><span></span><span></span></div>
+      <div class="terminal-body about-meta-body">
+        <p class="about-meta-title">// About this site</p>
+        <p><span class="prompt">$</span> <span class="out">cat SITE_BUILD.log</span></p>
+
+        <div class="about-meta-stats" id="aboutMetaStats">
+          <div class="gh-stat"><b data-target="2">0</b><span>Sessions</span></div>
+          <div class="gh-stat"><b data-target="17">0</b><span>Commits</span></div>
+          <div class="gh-stat"><b data-target="725000" data-suffix="K">0</b><span>Tokens Out</span></div>
+          <div class="gh-stat"><b data-target="168000000" data-suffix="M">0</b><span>Tokens Total</span></div>
+        </div>
+
+        <dl class="about-meta-list">
+          <div><dt>built_with</dt><dd>Claude Code (Sonnet 5) + Codex CLI</dd></div>
+          <div><dt>skills</dt><dd>dev-harness（任務分級／STATE.md 追蹤）、systematic-debugging（CSS bug 根因排查）、codex imagegen（素材生成）、gstack /browse（無頭瀏覽器 QA）</dd></div>
+          <div><dt>approach</dt><dd>地基工程（上線／網域／部署）走 spec-driven，先定驗收條件才算完成；功能疊代（彩蛋、動畫、視覺化）走快速迭代，不為小改動套重流程</dd></div>
+          <div><dt>safety_net</dt><dd>同一問題連續失敗 2 次強制停手轉診斷，不盲改第 3 次</dd></div>
+          <div><dt>agents</dt><dd>多 agent 交叉驗證技術細節，降低幻覺風險</dd></div>
+          <div><dt>timeframe</dt><dd>2026-07-31 → 2026-08-01</dd></div>
+        </dl>
+        <p class="about-meta-note muted">* 統計快照於 2026-08-01，非即時數據</p>
+      </div>
+    </div>
   </section>
 
   <section id="now" class="now reveal">

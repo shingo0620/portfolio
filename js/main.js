@@ -109,6 +109,55 @@
   }
 
   /* -------------------------------------------------------------- */
+  /* about-meta stat count-up                                        */
+  /* -------------------------------------------------------------- */
+
+  const aboutMetaStats = document.querySelectorAll("#aboutMetaStats b");
+
+  function formatAboutMetaStat(n, suffix) {
+    if (suffix === "M") return (n / 1000000).toFixed(1) + "M";
+    if (suffix === "K") return Math.round(n / 1000) + "K";
+    return Math.round(n).toString();
+  }
+
+  function animateAboutMetaStat(el) {
+    const target = Number(el.dataset.target) || 0;
+    const suffix = el.dataset.suffix || "";
+    const duration = 1200;
+    const start = performance.now();
+    function step(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = formatAboutMetaStat(target * eased, suffix);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  if (aboutMetaStats.length) {
+    if (reducedMotion) {
+      aboutMetaStats.forEach((el) => {
+        el.textContent = formatAboutMetaStat(Number(el.dataset.target) || 0, el.dataset.suffix || "");
+      });
+    } else if ("IntersectionObserver" in window) {
+      const statsIo = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateAboutMetaStat(entry.target);
+              statsIo.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4 }
+      );
+      aboutMetaStats.forEach((el) => statsIo.observe(el));
+    } else {
+      aboutMetaStats.forEach((el) => animateAboutMetaStat(el));
+    }
+  }
+
+  /* -------------------------------------------------------------- */
   /* typing effect — hero role                                       */
   /* -------------------------------------------------------------- */
 
