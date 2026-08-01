@@ -642,17 +642,9 @@
     window.addEventListener("pagehide", sendAbandonIfNeeded);
 
     const progressEls = Array.from(document.querySelectorAll(".egg-progress"));
-    const eggButtons = Array.from(document.querySelectorAll(".egg-btn"));
 
     function updateProgressDisplay() {
       progressEls.forEach((el, i) => el.classList.toggle("done", i < progress));
-    }
-
-    function flashButton(key) {
-      const btn = eggButtons.find((b) => b.dataset.key.toLowerCase() === key);
-      if (!btn) return;
-      btn.classList.add("flash");
-      setTimeout(() => btn.classList.remove("flash"), 350);
     }
 
     function chaosTargets() {
@@ -725,7 +717,6 @@
           started = true;
           trackEvent("egg_code_start");
         }
-        flashButton(key);
         progress++;
         updateProgressDisplay();
         if (progress === KONAMI.length) {
@@ -744,19 +735,12 @@
             started = true;
             trackEvent("egg_code_start");
           }
-          flashButton(key);
         }
       }
     }
 
     window.addEventListener("keydown", (e) => {
       registerInput(e.key.toLowerCase());
-    });
-
-    document.querySelectorAll(".egg-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        registerInput(btn.dataset.key.toLowerCase());
-      });
     });
   })();
 
