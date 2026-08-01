@@ -524,6 +524,80 @@
       update();
     }
 
+    function burstConfetti(originEl) {
+      const canvas = document.createElement("canvas");
+      canvas.className = "egg-confetti-canvas";
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext("2d");
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      canvas.width = vw * dpr;
+      canvas.height = vh * dpr;
+      canvas.style.width = vw + "px";
+      canvas.style.height = vh + "px";
+      ctx.scale(dpr, dpr);
+
+      const rect = originEl.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top + rect.height / 2;
+      const colors = ["34, 211, 238", "167, 139, 250", "244, 114, 182"];
+      const DURATION = 1400;
+
+      const pieces = Array.from({ length: 70 }, () => {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 3 + Math.random() * 6;
+        return {
+          x: originX,
+          y: originY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 4,
+          size: 4 + Math.random() * 4,
+          rot: Math.random() * Math.PI,
+          vrot: (Math.random() - 0.5) * 0.3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        };
+      });
+
+      let start = null;
+      function frame(ts) {
+        if (!start) start = ts;
+        const elapsed = ts - start;
+        const life = Math.max(0, 1 - elapsed / DURATION);
+        ctx.clearRect(0, 0, vw, vh);
+
+        pieces.forEach((p) => {
+          p.vy += 0.16;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vrot;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = `rgba(${p.color}, ${life})`;
+          ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.66);
+          ctx.restore();
+        });
+
+        if (elapsed < DURATION) {
+          requestAnimationFrame(frame);
+        } else {
+          canvas.remove();
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function celebrateSecondEgg() {
+      if (!eggHint) return;
+      eggHint.classList.add("egg-hint-celebrate");
+      eggHint.innerHTML =
+        '<span class="egg-celebrate-line">🎉恭喜你解開了第二層彩蛋🎉</span>' +
+        '<span class="egg-celebrate-sub">請繼續往下 ⬇</span>';
+      if (!reducedMotion) burstConfetti(eggHint);
+    }
+
     function revealInsights() {
       if (!insightsSection) return;
       insightsSection.hidden = false;
@@ -545,6 +619,7 @@
             if (completed && !insightsRevealed) {
               insightsRevealed = true;
               if (active) revertChaos();
+              celebrateSecondEgg();
               revealInsights();
             }
           });
