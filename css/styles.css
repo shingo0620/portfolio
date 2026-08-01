@@ -540,9 +540,8 @@ section { position: relative; z-index: 1; }
 /* ---------------------------------------------------------------------- */
 
 .about-meta {
-  max-width: var(--container);
+  max-width: calc(var(--container) - 2 * clamp(1.25rem, 4vw, 2.5rem));
   margin: clamp(2.5rem, 5vw, 4rem) auto 0;
-  padding: 0 clamp(1.25rem, 4vw, 2.5rem);
 }
 
 .about-meta-title {
