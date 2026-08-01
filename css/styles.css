@@ -536,6 +536,61 @@ section { position: relative; z-index: 1; }
 }
 
 /* ---------------------------------------------------------------------- */
+/* about: meta panel (About this site)                                    */
+/* ---------------------------------------------------------------------- */
+
+.about-meta {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.about-meta-title {
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.about-meta-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin: 1.25rem 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.about-meta-list {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.about-meta-list > div {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 1rem;
+}
+
+.about-meta-list dt {
+  color: var(--text-faint);
+}
+
+.about-meta-list dd {
+  color: var(--text);
+}
+
+.about-meta-note {
+  margin-top: 1.25rem;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .about-meta-stats { grid-template-columns: repeat(2, 1fr); }
+  .about-meta-list > div { grid-template-columns: 1fr; gap: 0.15rem; }
+}
+
+/* ---------------------------------------------------------------------- */
 /* now: terminal + live github                                            */
 /* ---------------------------------------------------------------------- */
 
