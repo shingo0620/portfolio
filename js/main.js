@@ -655,6 +655,11 @@
       setTimeout(() => btn.classList.remove("flash"), 350);
     }
 
+    function removeEggPad() {
+      const pad = document.querySelector(".egg-pad");
+      if (pad) pad.remove();
+    }
+
     function chaosTargets() {
       return document.querySelectorAll(".project-card, .skill-card, .panel");
     }
@@ -735,6 +740,7 @@
           window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
           active ? revertChaos() : applyChaos();
           updateProgressDisplay();
+          removeEggPad();
         }
       } else {
         progress = key === KONAMI[0] ? 1 : 0;
