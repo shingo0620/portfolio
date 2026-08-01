@@ -487,8 +487,8 @@
         ticking = false;
         const rect = scroller.getBoundingClientRect();
         const vh = window.innerHeight;
-        const scrolled = -rect.top;
         const scrollable = Math.max(rect.height - vh, 1);
+        const scrolled = -rect.top + scrollable * 0.25;
         const overall = Math.min(Math.max(scrolled / scrollable, 0), 1);
         const raw = overall * specs.length;
         const activeIndex = Math.min(Math.floor(raw), specs.length - 1);
